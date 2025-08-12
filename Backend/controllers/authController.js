@@ -8,7 +8,7 @@ const generateToken = (id) => {
 
 // Register User
 exports.registerUser = async(req, res) => {
-	const {fullName, email, password} = req.body;
+	const {fullName, email, password, profileImageURL} = req.body;
 
       // Validation : Check for missing fields
       if(!fullName || !email || !password) {
@@ -21,19 +21,12 @@ exports.registerUser = async(req, res) => {
                   return res.status(400).json({message: " Email already in use! "});
             }
 
-            // Handle the file upload to create the URL
-            let finalProfileImageURL = null;
-            if (req.file) {
-                  // Construct the full, absolute URL for the uploaded file
-                  finalProfileImageURL = `${req.protocol}://${req.get("host")}/uploads/${req.file.filename}`;
-            }
-
             // Create the User
             const user = await User.create({
                   fullName,
                   email,
-				password,
-				profileImageURL: finalProfileImageURL,
+			password,
+			profileImageURL,
             });
 
             res.status(201).json({

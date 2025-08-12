@@ -1,10 +1,16 @@
-import React, { useState } from 'react'
+import React, { useContext, useState, useEffect } from 'react'
 import AuthLayout from '../../components/layouts/AuthLayout'
 import { Link, useNavigate } from 'react-router-dom';
 
 import Input from '../../components/Inputs/Input';
 import {validateEmail} from '../../utils/helper.js';
 import ProfilePicSelector from '../../components/Inputs/ProfilePicSelector.jsx';
+
+import axiosInstance from '../../utils/axiosInstance.js';
+import { API_PATHS } from '../../utils/apiPaths.js';
+
+import { UserContext } from '../../context/userContext.jsx';
+import uploadImage from '../../utils/uploadImage.js';
 
 
 const SignUp = () => {
@@ -14,6 +20,8 @@ const SignUp = () => {
   const [password, setPassword] = useState("");
 
   const [error, setError] = useState(null);
+
+  const {updateUser} = useContext(UserContext);
   
   const navigate = useNavigate();
 
@@ -21,7 +29,7 @@ const SignUp = () => {
   const handleSignUp = async (e) => {
     e.preventDefault();
 
-    let profileImageUrl = " ";
+    let profileImageURL = " ";
 
     if (!fullName) {
       setError("Please enter your name! ");
@@ -41,8 +49,40 @@ const SignUp = () => {
     setError("");
 
     // Signup API Call
+    try {
 
-  }
+      // Upload image if present
+      if(profilePic) {
+        const imgUploadRes = await uploadImage(profilePic);
+        profileImageURL= imgUploadRes.imageUrl || "";
+      }
+
+      // console.log(profilePic ? "Profile Pic available" : " NOT AVAILABLE");
+
+      const response = await axiosInstance.post(API_PATHS.AUTH.REGISTER, {
+        fullName,
+        email,
+        password,
+        profileImageURL
+      });
+
+      const { token, user } = response.data;
+
+      if(token) {
+        localStorage.setItem("token", token);
+        updateUser(user);
+        navigate("/dashboard");
+      }
+    }
+    catch (error) {
+      if (error.response && error.response.data.message) {
+        setError(error.response.data.message);
+      } else {
+        setError("Something went wrong! Please try again later.");
+      }
+    }
+  };
+
 
   return (
     <AuthLayout>
