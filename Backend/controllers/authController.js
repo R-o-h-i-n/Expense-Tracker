@@ -8,7 +8,7 @@ const generateToken = (id) => {
 
 // Register User
 exports.registerUser = async(req, res) => {
-      const {fullName, email, password, profileImageUrl} = req.body;
+	const {fullName, email, password} = req.body;
 
       // Validation : Check for missing fields
       if(!fullName || !email || !password) {
@@ -21,16 +21,23 @@ exports.registerUser = async(req, res) => {
                   return res.status(400).json({message: " Email already in use! "});
             }
 
+            // Handle the file upload to create the URL
+            let finalProfileImageURL = null;
+            if (req.file) {
+                  // Construct the full, absolute URL for the uploaded file
+                  finalProfileImageURL = `${req.protocol}://${req.get("host")}/uploads/${req.file.filename}`;
+            }
+
             // Create the User
             const user = await User.create({
                   fullName,
                   email,
-                  password,
-                  profileImageUrl,
+				password,
+				profileImageURL: finalProfileImageURL,
             });
 
             res.status(201).json({
-                  id: user_id,
+                  id: user._id,
                   user,
                   token: generateToken(user._id),
             });
@@ -38,7 +45,7 @@ exports.registerUser = async(req, res) => {
       catch(err) {
             res
                   .status(500)
-                  .json({ message: "Error registering user!😢", error: err.message});
+                  .json({ message: "Error registering user!😢 ", error: err.message});
       }
 };
 
@@ -62,7 +69,7 @@ exports.loginUser = async(req, res) => {
       } catch(err) {
             res
                   .status(500)
-                  .json({ message: "Error registering user!😢", error: err.message});
+                  .json({ message: "Error logging in user!😢 ", error: err.message});
       }
 };
 
@@ -80,6 +87,6 @@ exports.getUserInfo = async(req, res) => {
       } catch(err) {
             res
                   .status(500)
-                  .json({ message: "Error registering user!😢", error: err.message});
+                  .json({ message: "Error fetching user info!😢 ", error: err.message});
       }
 };
