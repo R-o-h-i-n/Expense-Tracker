@@ -1,3 +1,5 @@
+** Frontend **
+
 npm i react-icons 
       axios
       moment 
@@ -11,3 +13,22 @@ npm i react-icons
 
       @import "tailwindcss";
 
+
+
+** Backend **
+
+npm init -y
+
+npm i express 
+      jsonwebtoken 
+      mongoose 
+      dotenv 
+      cors 
+      bcryptjs 
+      multer 
+      xlsx
+
+node -e "console.log(require('crypto').randomBytes(64).toString('hex'))"
+
+.gitignore generator : 
+      https://mrkandreev.name/snippets/gitignore-generator
