@@ -15,7 +15,7 @@ exports.getDashboardData = async (req, res) => {
                   { $group: { _id: null, total: {$sum: "$amount"} } },
             ]);
 
-            console.log("totalIncome", {totalIncome, userId: isValidObjectId(userId)});
+            // console.log("totalIncome", {totalIncome, userId: isValidObjectId(userId)});
 
             const totalExpense = await Expense.aggregate([
                   { $match : {userId: userObjectId} },
@@ -25,7 +25,7 @@ exports.getDashboardData = async (req, res) => {
 
             // Get income transactions in the last 30 days
             const last30DaysIncomeTransactions = await Income.find({
-                  userId,
+                  userId: userObjectId, // Changed
                   date: { $gte: new Date(Date.now() - 30 * 24 * 60 * 60 * 1000 ) },
             }).sort({ date: -1 });
 
@@ -38,7 +38,7 @@ exports.getDashboardData = async (req, res) => {
 
             // Get expense transactions in the last 30 days
             const last30DaysExpenseTransactions = await Expense.find({
-                  userId,
+                  userId: userObjectId, // Changed
                   date: { $gte: new Date(Date.now() - 30 * 24 * 60 * 60 * 1000 ) },
             }).sort({ date: -1 });
 
@@ -51,13 +51,13 @@ exports.getDashboardData = async (req, res) => {
 
             // Fetch last 10 transactions (income + expenses)
             const lastTransactions = [
-                  ...(await Income.find({ userId }).sort({ date: -1 }).limit(10)).map(
+                  ...(await Income.find({ userId: userObjectId }).sort({ date: -1 }).limit(10)).map(
                         (txn) => ({
                               ...txn.toObject(),
                               type: "income",
                         })
                   ),
-                  ...(await Expense.find({ userId }).sort({ date: -1 }).limit(10)).map(
+                  ...(await Expense.find({ userId: userObjectId }).sort({ date: -1 }).limit(10)).map(
                         (txn) => ({
                               ...txn.toObject(),
                               type: "expense",

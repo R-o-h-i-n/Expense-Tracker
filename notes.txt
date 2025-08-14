@@ -32,3 +32,26 @@ node -e "console.log(require('crypto').randomBytes(64).toString('hex'))"
 
 .gitignore generator : 
       https://mrkandreev.name/snippets/gitignore-generator
+
+
+Imports by file (only special third‑party libs)
+
+Frontend
+- src/utils/data.js - react-icons/lu: LuLayoutDashboard, LuHandCoins, LuWalletMinimal, LuLogOut -> sidebar icons
+- src/pages/Dashboard/Home.jsx - react-icons/io: IoMdCard -> balance icon; react-icons/lu: LuWalletMinimal, LuHandCoins -> stat icons
+- src/components/layouts/NavbarLayout.jsx - react-icons/hi: HiOutlineX, HiOutlineMenu -> sidebar toggle icons
+- src/components/layouts/AuthLayout.jsx - react-icons/lu: LuTrendingUpDown -> stats card icon
+- src/components/Inputs/Input.jsx - react-icons/fa6: FaRegEye, FaRegEyeSlash -> password visibility toggle
+- src/components/Inputs/ProfilePicSelector.jsx - react-icons/lu: LuUser, LuUpload, LuTrash -> profile picker icons
+ - src/components/Charts/CustomBarChart.jsx - recharts: BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, Cell -> bar chart components
+ - src/components/Charts/CustomPieChart.jsx - recharts: PieChart, Pie, Cell, Tooltip, ResponsiveContainer, Legend -> donut/pie chart components
+
+
+Backend
+- controllers/authController.js - jsonwebtoken: jwt -> sign JWT tokens
+- middleware/authMiddleware.js - jsonwebtoken: jwt -> verify JWT and attach user
+- middleware/uploadMiddleware.js - multer: multer -> handle image uploads to disk
+- controllers/expenseControllers.js - xlsx: xlsx -> build and send Excel file
+- controllers/incomeControllers.js - xlsx: xlsx -> build and send Excel file
+- models/User.js - bcryptjs: bcrypt -> hash/compare passwords
+
