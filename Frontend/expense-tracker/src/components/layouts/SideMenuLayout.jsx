@@ -51,16 +51,21 @@ const SideMenuLayout = ({ activeMenu }) => {
       </div>
 
       {SIDE_MENU_DATA.map((items, index)=> (
-            <button
-                  key={`menu_${index}`}
-                  className={`w-full flex items-center gap-4 text-[15px] ${
-                        activeMenu == items.label ? "text-white bg-primary" : ""
-                  } py-3 px-6 rounded-lg mb-3`}
-                  onClick={()=> handleClick(items.path)}
-            >
-                  <items.icon className='text-xl' />
-                  {items.label}
-            </button>
+            
+                  <button
+                        key={`menu_${index}`}
+                        // className={`w-full flex items-center gap-4 text-[15px] ${
+                        //       activeMenu == items.label ? "text-white bg-primary" : ""
+                        // } py-3 px-6 rounded-lg mb-3`}
+                        className={`w-full flex items-center gap-4 text-[15px] 
+                                    ${location.pathname === items.path ? "text-white bg-primary" : "" } 
+                                    py-3 px-6 rounded-lg mb-3`}
+                        onClick={()=> handleClick(items.path)}
+                  >
+                        <items.icon className='text-xl' />
+                        {items.label}
+                  </button>
+            
       ))}
 
     </div>
