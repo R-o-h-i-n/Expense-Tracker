@@ -3,26 +3,25 @@ const dotenv = require("dotenv");
 const cors = require("cors");
 const path = require("path");
 
+// Database connection utility
 const connectDB = require("./config/db.js");
 
+// Route handlers for different API endpoints
 const authRoutes = require("./routes/authRoutes.js");
 const incomeRoutes = require("./routes/incomeRoutes.js");
 const expenseRoutes = require("./routes/expenseRoutes.js");
 const dashboardRoutes = require("./routes/dashboardRoutes.js");
 
-
-// Load environment variables
+// Load environment variables from .env file
 dotenv.config({ path: "./.env" });
 
-// Connect to the database
+// Establish database connection
 connectDB();
 
-
-// Initialize Express app
+// Initialize Express application
 const app = express();
 
-
-// Middleware: Enable CORS
+// Middleware: Enable Cross-Origin Resource Sharing
 app.use(
   cors({
     origin: process.env.CLIENT_URL || "*",
@@ -31,23 +30,19 @@ app.use(
   })
 );
 
-
-// Middleware: Parse JSON and URL-encoded bodies
+// Middleware: Parse JSON and URL-encoded request bodies
 app.use(express.json()); // ✅ Needed for req.body to work
 app.use(express.urlencoded({ extended: true }));
 
-
-// Serve static files from "uploads" directory
+// Serve static files from "uploads" directory for profile images
 app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 
+// API Routes - Version 1
+app.use("/api/v1/auth", authRoutes);        // Authentication endpoints
+app.use("/api/v1/income", incomeRoutes);    // Income management endpoints
+app.use("/api/v1/expense", expenseRoutes);  // Expense management endpoints
+app.use("/api/v1/dashboard", dashboardRoutes); // Dashboard data endpoints
 
-// Routes
-app.use("/api/v1/auth", authRoutes);
-app.use("/api/v1/income", incomeRoutes);
-app.use("/api/v1/expense", expenseRoutes);
-app.use("/api/v1/dashboard", dashboardRoutes);
-
-
-// Start the server
+// Start the server on specified port
 const PORT = process.env.PORT || 8000;
 app.listen(PORT, () => console.log(`✅ Server running on port ${PORT}`));
