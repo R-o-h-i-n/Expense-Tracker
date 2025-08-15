@@ -43,8 +43,8 @@ Frontend
 - src/components/layouts/AuthLayout.jsx - react-icons/lu: LuTrendingUpDown -> stats card icon
 - src/components/Inputs/Input.jsx - react-icons/fa6: FaRegEye, FaRegEyeSlash -> password visibility toggle
 - src/components/Inputs/ProfilePicSelector.jsx - react-icons/lu: LuUser, LuUpload, LuTrash -> profile picker icons
- - src/components/Charts/CustomBarChart.jsx - recharts: BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, Cell -> bar chart components
- - src/components/Charts/CustomPieChart.jsx - recharts: PieChart, Pie, Cell, Tooltip, ResponsiveContainer, Legend -> donut/pie chart components
+- src/components/Charts/CustomBarChart.jsx - recharts: BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, Cell -> bar chart components
+- src/components/Charts/CustomPieChart.jsx - recharts: PieChart, Pie, Cell, Tooltip, ResponsiveContainer, Legend -> donut/pie chart components
 
 
 Backend
